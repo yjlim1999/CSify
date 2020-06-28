@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     TextView toolbarTitle;
     @BindView(R.id.search2)
     ImageView search2;
+    //added
+    @BindView(R.id.logout)
+    ImageView logout;
+    //added
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.framelayout)
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     NewsFeedFragment newsFeedFragment;
     NotificationFragment notificationFragment;
     FriendsFragment friendsFragment;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         //this will actually make it such that only 1 title is showed rather than 2
+        // (it makes Networking app title to be invisible, refer to bottom_naviation_main.xml)
+
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //styling the bottom navigation menu
@@ -106,6 +114,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //new code
+        firebaseAuth = FirebaseAuth.getInstance();
+        logout=(ImageView)findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseAuth.signOut();
+                finish();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        })
+        //new code
+        ;
+
+
+
 
     }
 
@@ -119,4 +143,8 @@ public class MainActivity extends AppCompatActivity {
     public void onViewClicked() {
         startActivity(new Intent(MainActivity.this, SearchActivity.class));
     }
+
+
+
+
 }
